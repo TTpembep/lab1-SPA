@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Form = () => {
@@ -38,6 +38,9 @@ const Form = () => {
             </label>
             <br />
             <button type="submit">Добавить</button>
+            <Link to="/">
+                <button type="button">Вернуться на главную</button> {/* Кнопка для возврата на главную */}
+            </Link>
         </form>
     );
 };
