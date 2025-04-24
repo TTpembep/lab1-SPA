@@ -7,16 +7,18 @@ const Detail = () => {
 
     const [itemData, setItemData] = useState({ name: '', description: '' }); // Устанавливаем начальное состояние
     const [isEditing, setIsEditing] = useState(false); // Состояние для отслеживания режима редактирования
+    const [error, setError] = useState(null); // Состояние для хранения информации об ошибке
 
     useEffect(() => {
-        // Функция для загрузки данных товара
+        // Функция для загрузки данных правила
         const loadItem = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/items/${id}`);
                 setItemData(response.data);
-                console.log("Загруженный товар:", response.data);
+                console.log("Загруженное правило:", response.data);
             } catch (error) {
                 console.error("Ошибка загрузки:", error);
+                setError("Не удалось загрузить данные. Возможно, сервер базы данных выключен.");
             }
         };
 
@@ -35,7 +37,7 @@ const Detail = () => {
         }
     }, [itemData]);
 
-    // Функция обновления товара
+    // Функция обновления правила
     const handleSubmit = async (e) => {
         e.preventDefault();
         const updatedItem = {
@@ -48,15 +50,17 @@ const Detail = () => {
                 headers: { "Content-Type": "application/json" }
             });
             setItemData(response.data);
-            console.log("Обновленный товар:", response.data);
+            console.log("Обновленное правило:", response.data);
             setIsEditing(false); // Выходим из режима редактирования после обновления
         } catch (error) {
             console.error("Ошибка обновления:", error);
+            setError("Не удалось обновить правило. Возможно, сервер базы данных выключен.");
         }
     };
 
     return (
         <div>
+            {error && <p style={{ color: 'red' }}>{error}</p>} {/* Отображение сообщения об ошибке */}
             {isEditing ? (
                 <form onSubmit={handleSubmit}>
                     <label>
@@ -70,6 +74,9 @@ const Detail = () => {
                     </label>
                     <br />
                     <button type="submit">Сохранить</button>
+                    <button type="button" onClick={() => setIsEditing(false)}>
+                        Вернуться к описанию
+                    </button> {/* Кнопка для возврата к описанию */}
                 </form>
             ) : (
                 <div>

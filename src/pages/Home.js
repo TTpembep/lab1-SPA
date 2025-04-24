@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const Home = () => {
   const [data, setData] = useState([]); // Используем useState для хранения данных
+  const [error, setError] = useState(null); // Состояние для хранения информации об ошибке
 
   useEffect(() => {
     // Функция для загрузки данных
@@ -14,6 +15,7 @@ const Home = () => {
         console.log("Данные загружены:", response.data);
       } catch (error) {
         console.error("Ошибка запроса:", error);
+        setError("Не удалось загрузить данные. Возможно, сервер базы данных выключен.");
       }
     };
 
@@ -30,12 +32,14 @@ const Home = () => {
       console.log("Обновленные данные:", data);
     } catch (error) {
       console.error("Ошибка удаления:", error);
+      setError("Не удалось удалить правило. Возможно, сервер базы данных выключен.");
     }
   };
 
   return (
     <div>
       <h1>Справка по правилам автомобильной безопасности.</h1>
+      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Отображение сообщения об ошибке */}
       <ul>
         {data.map(item => (
           <li key={item.id}>
