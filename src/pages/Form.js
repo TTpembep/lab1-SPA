@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react'; // Импортируем useSt
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
+import './styles.css';
+
 const Form = () => {
     const nameRef = useRef(null);
     const descriptionRef = useRef(null); // Добавляем ref для описания

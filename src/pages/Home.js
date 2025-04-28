@@ -1,6 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+
+import "./styles.css";
+
+const info = {
+  name : 'Служба автобезопасности',
+  imageUrl: 'https://shorturl.at/5xnki',
+  imageSize: 90,
+};
+
+function MyButton() {
+  const [count, setCount] = useState(0);
+
+  function handleClick() {
+    setCount(count +1);
+    alert('Всегда соблюдай правила дорожного движения!');
+  }
+
+  return (
+    <button onClick={handleClick}>
+      Нажми на меня!
+      <p>Количество нажатий: {count}.</p>
+    </button>
+  );
+}
+
+function AboutPage() {
+  return(
+    <div className="Base">
+      <h2>Информация.</h2>
+      <p>Сборник основных правил.<br />Предназначен для закрепления знаний.</p>
+      <img 
+      className="picture" 
+      src={info.imageUrl}
+      alt={'Архив ' + info.name}
+      style={{
+        width: info.imageSize,
+        height: info.imageSize
+      }}
+      />
+    </div>
+  );
+}
 
 const Home = () => {
   const [data, setData] = useState([]); // Используем useState для хранения данных
@@ -15,7 +57,7 @@ const Home = () => {
         console.log("Данные загружены:", response.data);
       } catch (error) {
         console.error("Ошибка запроса:", error);
-        setError("Не удалось загрузить данные. Возможно, сервер базы данных выключен.");
+        setError("Ошибка загрузки информации. Нет ответа от базы данных.");
       }
     };
 
@@ -32,12 +74,21 @@ const Home = () => {
       console.log("Обновленные данные:", data);
     } catch (error) {
       console.error("Ошибка удаления:", error);
-      setError("Не удалось удалить правило. Возможно, сервер базы данных выключен.");
+      setError("Ошибка удаления. Нет ответа от базы данных.");
     }
   };
 
+
+
   return (
-    <div>
+    <div className="App">
+      <h1>Справочник автобезопасности.</h1>
+      <MyButton />
+      <br />
+      <AboutPage />
+      <h2>Совершенно иная кнопка:</h2>
+      <MyButton />
+      <br /><br /><br />
       <h1>Справка по правилам автомобильной безопасности.</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>} {/* Отображение сообщения об ошибке */}
       <ul>
@@ -53,6 +104,6 @@ const Home = () => {
       <Link to="/add">Добавить правило</Link>
     </div>
   );
-};
+}
 
 export default Home;
