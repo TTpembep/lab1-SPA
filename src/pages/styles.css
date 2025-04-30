@@ -87,3 +87,73 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.spinner {
+  border: 8px solid rgba(0, 0, 0, 0.1);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border-left-color: #09f;
+  animation: spin 1s ease infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.login-container {
+  font-family: 'Times New Roman', Times, serif;
+  padding: 20px;
+  background-color: #fff8e5;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-container h2 {
+  color: #8b5e3c;
+  margin-bottom: 20px;
+}
+
+.login-container form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.login-container label {
+  display: block;
+  margin-bottom: 8px;
+  color: #8b5e3c;
+  text-align: left;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+  width: calc(100% - 18px);
+  padding: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.login-container button {
+  background-color: #8b5e3c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.login-container button:hover {
+  background-color: #754c24;
+}

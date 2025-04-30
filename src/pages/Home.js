@@ -3,17 +3,21 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import "./styles.css";
 
-const Home = () => {
+const Home = ({ onLogout }) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true); // New loading state
 
   useEffect(() => {
     const loadData = async () => {
+      setLoading(true); // Set loading to true before fetching data
       try {
         const response = await axios.get("http://localhost:5000/rules");
         setData(response.data);
       } catch (error) {
         setError("Ошибка загрузки информации. Нет ответа от базы данных.");
+      } finally {
+        setLoading(false); // Set loading to false after data is fetched or error occurs
       }
     };
 
@@ -36,29 +40,30 @@ const Home = () => {
   return (
     <div className="App">
       <h1>Справочник автобезопасности.</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
       <FilterableProductTable products={sortedProducts} onDeleteItem={handleDeleteItem} />
-      <br /><br /><br />
+      {loading && <div className="spinner"></div>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <p><Link to="/add">Добавить правило</Link></p>
-      <br /><hr /><br />
+      <hr />
+      <button onClick={onLogout}>Logout</button>
     </div>
   );
 };
 
-const FilterableProductTable = ({ products, onDeleteItem }) => {
-  const [filterText, setFilterText] = useState('');
-
-  return (
-    <div>
-      <SearchBar filterText={filterText} onFilterTextChange={setFilterText} />
-      <ProductTable products={products} filterText={filterText} onDeleteItem={onDeleteItem} />
-    </div>
-  );
-};
+const SearchBar = ({ filterText, onFilterTextChange }) => (
+  <form>
+    <input
+      type="text"
+      value={filterText}
+      placeholder="Search..."
+      onChange={(e) => onFilterTextChange(e.target.value)}
+    />
+  </form>
+);
 
 const ProductCategoryRow = ({ category }) => (
   <tr>
-    <th colSpan="3">{category}</th>
+    <th colSpan="3" style={{textAlign: "center"}}>{category}</th>
   </tr>
 );
 
@@ -102,26 +107,15 @@ const ProductTable = ({ products, filterText, onDeleteItem }) => {
   );
 };
 
-const SearchBar = ({ filterText, onFilterTextChange }) => (
-  <form>
-    <input
-      type="text"
-      value={filterText}
-      placeholder="Search..."
-      onChange={(e) => onFilterTextChange(e.target.value)}
-    />
-  </form>
-);
+const FilterableProductTable = ({ products, onDeleteItem }) => {
+  const [filterText, setFilterText] = useState('');
 
-/*const ProductList = ({ products, onDeleteItem }) => (
-  <ul>
-    {products.map(item => (
-      <li key={item.id}>
-        <Link to={`/detail/${item.id}`}>{item.name}</Link>
-        <button onClick={() => onDeleteItem(item.id)}>Удалить</button>
-      </li>
-    ))}
-  </ul>
-);*/
+  return (
+    <div>
+      <SearchBar filterText={filterText} onFilterTextChange={setFilterText} />
+      <ProductTable products={products} filterText={filterText} onDeleteItem={onDeleteItem} />
+    </div>
+  );
+};
 
 export default Home;

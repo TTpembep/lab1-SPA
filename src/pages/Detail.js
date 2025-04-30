@@ -5,7 +5,7 @@ import './styles.css';
 
 const Detail = () => {
     const { id } = useParams();
-    const [itemData, setItemData] = useState({ name: '', description: '' });
+    const [itemData, setItemData] = useState({ name: '', description: '', type: '' });
     const [isEditing, setIsEditing] = useState(false);
     const [error, setError] = useState(null);
 
@@ -42,8 +42,21 @@ const Detail = () => {
         e.preventDefault();
         const updatedItem = {
             name: nameRef.current.value,
-            description: descriptionRef.current.value,
+            type: typeRef.current.value, // Include the type in the updated item
+            description: descriptionRef.current.value.trim(),
         };
+
+        // Validation for name and description
+        if (!updatedItem.name.startsWith("Правило ")) {
+            setError("Название должно начинаться с 'Правило '.");
+            return;
+        }
+
+        const description = updatedItem.description;
+        if (!/^[a-zа-я]/.test(description) || !description.endsWith('.')) {
+            setError("Описание должно начинаться с маленькой буквы и заканчиваться точкой.");
+            return;
+        }
 
         try {
             const response = await axios.put(`http://localhost:5000/rules/${id}`, updatedItem, {

@@ -22,6 +22,19 @@ const Form = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // Validation for name and description
+        if (!formData.name.startsWith("Правило ")) {
+            setError("Название должно начинаться с 'Правило '.");
+            return;
+        }
+
+        const description = formData.description.trim();
+        if (!/^[a-zа-я]/.test(description) || !description.endsWith('.')) {
+            setError("Описание должно начинаться с маленькой буквы и заканчиваться точкой.");
+            return;
+        }
+
         axios.post("http://localhost:5000/rules", formData, {
             headers: { "Content-Type": "application/json" }
         })
