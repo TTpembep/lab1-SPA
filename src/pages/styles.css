@@ -1,13 +1,89 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;  /* Внешний отступ */
+  padding: 0; /* Внутренний отступ */
+  background-color: #f8f1e3;
+  color: #333;
+}
+
 .App {
   font-family: 'Times New Roman', Times, serif;
-  text-align: center;
+  p {
+    text-indent: 42px;
+  }
+  padding: 20px;
+  background-color: #fff8e5;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 800px;
 }
 
-.Base {
-  font-family: 'Times New Roman', Times, serif;
-  text-align: center;
+h1 {
+  color: #8b5e3c;
 }
 
-.picture {
-  border-radius: 70%;
+table {
+  width: 100%;
+  border-collapse: collapse; /* Вид границ таблицы */
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f5d76e;
+}
+
+tr:nth-child(even) {
+  background-color: #fff3e2;
+}
+
+button {
+  background-color: #8b5e3c;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #754c24;
+}
+
+form {
+  background: #fff;
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #8b5e3c;
+}
+
+input[type="text"],
+select,
+textarea {
+  width: calc(100% - 18px);
+  padding: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+a {
+  color: #8b5e3c;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }

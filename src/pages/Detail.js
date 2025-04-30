@@ -1,25 +1,20 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-
 import './styles.css';
 
 const Detail = () => {
     const { id } = useParams();
-
-    const [itemData, setItemData] = useState({ name: '', description: '' }); // Устанавливаем начальное состояние
-    const [isEditing, setIsEditing] = useState(false); // Состояние для отслеживания режима редактирования
-    const [error, setError] = useState(null); // Состояние для хранения информации об ошибке
+    const [itemData, setItemData] = useState({ name: '', description: '' });
+    const [isEditing, setIsEditing] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Функция для загрузки данных правила
         const loadItem = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/items/${id}`);
+                const response = await axios.get(`http://localhost:5000/rules/${id}`);
                 setItemData(response.data);
-                console.log("Загруженное правило:", response.data);
             } catch (error) {
-                console.error("Ошибка загрузки:", error);
                 setError("Не удалось загрузить данные. Возможно, сервер базы данных выключен.");
             }
         };
@@ -28,18 +23,21 @@ const Detail = () => {
     }, [id]);
 
     const nameRef = useRef(null);
+    const typeRef = useRef(null);
     const descriptionRef = useRef(null);
 
     useEffect(() => {
         if (nameRef.current) {
             nameRef.current.value = itemData.name || '';
         }
+        if (typeRef.current) {
+            typeRef.current.value = itemData.type || '';
+        }
         if (descriptionRef.current) {
             descriptionRef.current.value = itemData.description || '';
         }
     }, [itemData]);
 
-    // Функция обновления правила
     const handleSubmit = async (e) => {
         e.preventDefault();
         const updatedItem = {
@@ -48,43 +46,48 @@ const Detail = () => {
         };
 
         try {
-            const response = await axios.put(`http://localhost:5000/items/${id}`, updatedItem, {
+            const response = await axios.put(`http://localhost:5000/rules/${id}`, updatedItem, {
                 headers: { "Content-Type": "application/json" }
             });
             setItemData(response.data);
-            console.log("Обновленное правило:", response.data);
-            setIsEditing(false); // Выходим из режима редактирования после обновления
+            setIsEditing(false);
         } catch (error) {
-            console.error("Ошибка обновления:", error);
-            setError("Не удалось обновить правило. Возможно, сервер базы данных выключен.");
+            setError("Ошибка обновления. Нет ответа от базы данных.");
         }
     };
 
     return (
-        <div>
-            {error && <p style={{ color: 'red' }}>{error}</p>} {/* Отображение сообщения об ошибке */}
+        <div className="App">
+            {error && <p style={{ color: 'red' }}>{error}</p>}
             {isEditing ? (
                 <form onSubmit={handleSubmit}>
                     <label>
                         Название:
                         <input type="text" ref={nameRef} required />
                     </label>
-                    <br />
+                    <label>
+                        Тип правила:
+                        <select ref={typeRef} required>
+                            <option value="Следует">Следует</option>
+                            <option value="Запрещено">Запрещено</option>
+                        </select>
+                    </label>
                     <label>
                         Описание:
                         <textarea ref={descriptionRef} />
                     </label>
-                    <br />
                     <button type="submit">Сохранить</button>
+                    <text> </text>
                     <button type="button" onClick={() => setIsEditing(false)}>
                         Вернуться к описанию
-                    </button> {/* Кнопка для возврата к описанию */}
+                    </button>
                 </form>
             ) : (
                 <div>
                     <h1>{itemData.name}</h1>
-                    {itemData.description && <p>{itemData.description}</p>} {/* Отображаем описание, если оно есть */}
+                    <p>{itemData.type}: {itemData.description}</p>
                     <button onClick={() => setIsEditing(true)}>Редактировать</button>
+                    <text> </text>
                     <Link to="/">
                         <button>Вернуться на главную</button>
                     </Link>
