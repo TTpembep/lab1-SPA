@@ -52,7 +52,7 @@ const Form = () => {
         <div className="App">
             <h1>Страница создания нового правила.</h1>
             <form onSubmit={handleSubmit}>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+
             <div>
                 <label>
                     Название:
@@ -74,6 +74,8 @@ const Form = () => {
                     <textarea name="description" value={formData.description} onChange={handleChange} />
                 </label>
             </div>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <hr />
             <div>
                 <button type="submit">Создать</button>
                 <text> </text>

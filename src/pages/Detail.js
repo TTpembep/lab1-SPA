@@ -38,6 +38,13 @@ const Detail = () => {
         }
     }, [itemData]);
 
+    // Новый useEffect для сброса ошибки
+    useEffect(() => {
+        if (!isEditing) {
+            setError(null); // Сброс ошибки при изменении isEditing на false
+        }
+    }, [isEditing]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const updatedItem = {
@@ -71,7 +78,6 @@ const Detail = () => {
 
     return (
         <div className="App">
-            {error && <p style={{ color: 'red' }}>{error}</p>}
             {isEditing ? (
                 <form onSubmit={handleSubmit}>
                     <label>
@@ -86,9 +92,11 @@ const Detail = () => {
                         </select>
                     </label>
                     <label>
-                        Описание:
+                        Описание:    
                         <textarea ref={descriptionRef} />
                     </label>
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                    <hr />
                     <button type="submit">Сохранить</button>
                     <text> </text>
                     <button type="button" onClick={() => setIsEditing(false)}>
@@ -99,6 +107,8 @@ const Detail = () => {
                 <div>
                     <h1>{itemData.name}</h1>
                     <p>{itemData.type}: {itemData.description}</p>
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                    <hr />
                     <button onClick={() => setIsEditing(true)}>Редактировать</button>
                     <text> </text>
                     <Link to="/">
