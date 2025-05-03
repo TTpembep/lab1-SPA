@@ -10,7 +10,7 @@ const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        // Check localStorage for authentication state
+        //Проверка авторизован ли пользователь
         const storedAuth = localStorage.getItem('isAuthenticated');
         if (storedAuth) {
           setIsAuthenticated(true);

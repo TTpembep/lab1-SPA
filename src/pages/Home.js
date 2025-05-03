@@ -6,18 +6,18 @@ import "./styles.css";
 const Home = ({ onLogout }) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true); // New loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadData = async () => {
-      setLoading(true); // Set loading to true before fetching data
+      setLoading(true);
       try {
         const response = await axios.get("http://localhost:5000/rules");
         setData(response.data);
       } catch (error) {
         setError("Ошибка загрузки информации. Нет ответа от базы данных.");
       } finally {
-        setLoading(false); // Set loading to false after data is fetched or error occurs
+        setLoading(false);
       }
     };
 
@@ -43,9 +43,9 @@ const Home = ({ onLogout }) => {
       <FilterableProductTable products={sortedProducts} onDeleteItem={handleDeleteItem} />
       {loading && <div className="spinner"></div>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <p><Link to="/add">Добавить правило</Link></p>
+      <p><Link to="/add">Создать правило</Link></p>
       <hr />
-      <button onClick={onLogout}>Logout</button>
+      <button onClick={onLogout}>Выйти</button>
     </div>
   );
 };
@@ -55,7 +55,7 @@ const SearchBar = ({ filterText, onFilterTextChange }) => (
     <input
       type="text"
       value={filterText}
-      placeholder="Search..."
+      placeholder="Поиск..."
       onChange={(e) => onFilterTextChange(e.target.value)}
     />
   </form>

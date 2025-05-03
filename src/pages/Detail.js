@@ -42,11 +42,11 @@ const Detail = () => {
         e.preventDefault();
         const updatedItem = {
             name: nameRef.current.value,
-            type: typeRef.current.value, // Include the type in the updated item
+            type: typeRef.current.value,
             description: descriptionRef.current.value.trim(),
         };
 
-        // Validation for name and description
+        //Условия для полей названия и описания
         if (!updatedItem.name.startsWith("Правило ")) {
             setError("Название должно начинаться с 'Правило '.");
             return;

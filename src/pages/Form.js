@@ -6,7 +6,7 @@ import './styles.css';
 const Form = () => {
     const [formData, setFormData] = useState({
         name: '',
-        type: 'Следует', // Default value
+        type: 'Следует',
         description: ''
     });
     const [error, setError] = useState(null);
@@ -23,7 +23,7 @@ const Form = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Validation for name and description
+        //Условия для полей названия и описания
         if (!formData.name.startsWith("Правило ")) {
             setError("Название должно начинаться с 'Правило '.");
             return;
@@ -39,62 +39,46 @@ const Form = () => {
             headers: { "Content-Type": "application/json" }
         })
         .then(response => {
-            console.log("Добавленное правило:", response.data);
+            console.log("Созданное правило:", response.data);
             navigate('/');
         })
         .catch(error => {
             console.error("Ошибка создания:", error);
-            setError("Не удалось добавить правило. Возможно, сервер базы данных выключен.");
+            setError("Ошибка добавления информации. Нет ответа от базы данных.");
         });
     };
 
     return (
         <div className="App">
-            <h1>Добавить новое правило</h1>
+            <h1>Страница создания нового правила.</h1>
             <form onSubmit={handleSubmit}>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-                <div>
-                    <label>
-                        Название:
-                        <input
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            required
-                        />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        Тип правила:
-                        <select
-                            name="type"
-                            value={formData.type}
-                            onChange={handleChange}
-                        >
-                            <option value="Следует">Следует</option>
-                            <option value="Запрещено">Запрещено</option>
-                        </select>
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        Описание:
-                        <textarea
-                            name="description"
-                            value={formData.description}
-                            onChange={handleChange}
-                        />
-                    </label>
-                </div>
-                <div>
-                    <button type="submit">Добавить</button>
-                    <text> </text>
-                    <Link to="/">
-                        <button type="button">Вернуться на главную</button>
-                    </Link>
-                </div>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <div>
+                <label>
+                    Название:
+                    <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Тип правила:
+                    <select name="type" value={formData.type} onChange={handleChange}>
+                        <option value="Следует">Следует</option>
+                        <option value="Запрещено">Запрещено</option>
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label>
+                    Описание:
+                    <textarea name="description" value={formData.description} onChange={handleChange} />
+                </label>
+            </div>
+            <div>
+                <button type="submit">Создать</button>
+                <text> </text>
+                <Link to="/"> <button type="button">Вернуться на главную</button> </Link>
+            </div>
             </form>
         </div>
     );
