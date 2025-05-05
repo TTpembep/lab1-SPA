@@ -27,12 +27,32 @@ table {
   width: 100%;
   border-collapse: collapse; /* Вид границ таблицы */
   margin-top: 20px;
+  table-layout: fixed; /* Устанавливает фиксированную ширину столбцов */
 }
 
-th, td {
+th:nth-child(1), td:nth-child(1) {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
+  word-wrap: break-word; /* Разбивает длинные слова */
+  white-space: normal;   /* Позволяет тексту переноситься */
+  width: 20%; /* Доля ширины */
+}
+th:nth-child(2), td:nth-child(2) {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  word-wrap: break-word;
+  white-space: normal;
+  width: 60%;
+}
+th:nth-child(3), td:nth-child(3) {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  word-wrap: break-word;
+  white-space: normal;
+  width: 20%;
 }
 
 th {

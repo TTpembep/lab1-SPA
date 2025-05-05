@@ -72,7 +72,9 @@ const ProductRow = ({ product, onDeleteItem }) => (
     <td>
       <li><Link to={`/detail/${product.id}`}>{product.name}</Link></li>
     </td>
-    <td>{product.description}</td>
+    <td style={{ wordWrap: 'break-word', whiteSpace: 'normal' }}>
+    {product.description}
+    </td>
     <td>
       <button onClick={() => onDeleteItem(product.id)}>Удалить</button>
     </td>
